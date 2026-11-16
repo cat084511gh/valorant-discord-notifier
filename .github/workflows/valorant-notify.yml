@@ -5,6 +5,11 @@ on:
     # 10 分おき (UTC)。GitHub の混雑で数分〜十数分遅れることがあります
     - cron: "*/10 * * * *"
   workflow_dispatch: # Actions 画面から手動実行もできる
+    inputs:
+      test:
+        description: "テスト送信 (最新の 1 試合を必ず通知する)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write # state/last_match.json をコミットするため
@@ -31,6 +36,7 @@ jobs:
           VAL_NAME: 年上お姉さんに依存されたい
           VAL_TAG: blitz
           VAL_REGION: ap
+          TEST_NOTIFY: ${{ inputs.test && '1' || '' }}
         run: python valorant_notify.py
 
       - name: 状態ファイルを保存
