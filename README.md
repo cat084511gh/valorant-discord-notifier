@@ -44,6 +44,10 @@ Actions タブ →「Valorant 試合通知」→「Run workflow」。
 勝敗・マップ・モード・エージェント・ラウンドスコア・K/D/A・ACS・HS%・ランク（RR 変動）。
 タイトルをクリックすると tracker.gg の試合ページが開きます。
 
+## テスト送信
+Actions タブ →「Valorant 試合通知」→「Run workflow」で「テスト送信」にチェックを入れて実行すると、
+最新の 1 試合を必ず Discord に通知します（記録している試合 ID は変わりません）。
+
 ## 設定の変更
 - 監視するプレイヤー：ワークフローの `VAL_NAME` / `VAL_TAG`
 - リージョン：`VAL_REGION`（日本は `ap`）

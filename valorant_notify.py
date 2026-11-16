@@ -191,6 +191,22 @@ def main() -> None:
         print("試合が取得できませんでした (戦績なし or 非公開)")
         return
 
+    if env("TEST_NOTIFY") == "1":
+        # テスト送信: 最新の 1 試合を通知するだけ (状態ファイルは変更しない)
+        latest = matches[0]
+        mid = (latest.get("metadata") or {}).get("matchid")
+        player = find_player(latest, name, tag)
+        if not player:
+            sys.exit(f"試合 {mid} にプレイヤーが見つかりません")
+        mmr = fetch_mmr_history(region, name, tag, api_key).get(mid)
+        payload = {"embeds": [build_embed(latest, player, mmr, name, tag)]}
+        if dry_run:
+            print(json.dumps(payload, ensure_ascii=False, indent=2))
+        else:
+            post_discord(webhook, payload)
+            print(f"テスト通知を送信しました: {mid}")
+        return
+
     state = load_state(state_path)
     last_id = state.get("last_match_id")
     latest_id = (matches[0].get("metadata") or {}).get("matchid")
